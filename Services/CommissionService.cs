@@ -1,5 +1,5 @@
 ﻿using DesafioTarget.Models;
-using DesafioTarget.Services.Strategy;
+using DesafioTarget.Services.Strategies;
 
 namespace DesafioTarget.Services
 {
@@ -12,17 +12,17 @@ namespace DesafioTarget.Services
             _strategies = strategies;
         }
 
-        public decimal CalculateCommission(Sale sale)
+        public decimal CalculateCommission(decimal saleAmount)
         {
             var strategy = _strategies.FirstOrDefault(
-                strategy => strategy.AppliesTo(sale));
+                            strategy => strategy.CanApply(saleAmount));
 
             if (strategy is null)
             {
                 throw new InvalidOperationException("Nenhuma regra de comissão foi encontrada para a venda.");
             }
 
-            return strategy.Calculate(sale);
+            return strategy.Calculate(saleAmount);
         }
     }
 }
