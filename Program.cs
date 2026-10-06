@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICommissionStrategy, NoCommissionStrategy>();
 builder.Services.AddScoped<ICommissionStrategy, OnePercentCommissionStrategy>();
 builder.Services.AddScoped<ICommissionStrategy, FivePercentCommissionStrategy>();
+
 builder.Services.AddScoped<CommissionService>();
 
 var app = builder.Build();
