@@ -1,4 +1,4 @@
-﻿namespace DesafioTarget.DTOs;
+namespace DesafioTarget.DTOs;
 
 public class CommissionResult
 {

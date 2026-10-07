@@ -1,5 +1,5 @@
 ﻿using DesafioTarget.DTOs;
-using DesafioTarget.Models;
+using DesafioTarget.Models.Dtos;
 using DesafioTarget.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,23 +9,25 @@ namespace DesafioTarget.Controllers;
 [Route("api/[controller]")]
 public class CommissionsController : ControllerBase
 {
-    private readonly CommissionService _commissionService;
+    private readonly ICommissionService _commissionService;
 
-    public CommissionsController(CommissionService commissionService)
+    public CommissionsController(ICommissionService commissionService)
     {
         _commissionService = commissionService;
     }
 
     [HttpPost("calculate")]
-    public ActionResult<IEnumerable<CommissionResult>> Calculate(
-    IEnumerable<Sale> sales)
+    public ActionResult<IEnumerable<CommissionResult>> Calculate([FromBody] SaleRequest inputModel)
     {
-        var results = sales.Select(sale => new CommissionResult
-        {
-            Seller = sale.Seller,
-            SaleAmount = sale.Amount,
-            Commission = _commissionService.CalculateCommission(sale.Amount)
-        });
+        var results = _commissionService.CalculateCommission(inputModel);
+
+        return Ok(results);
+    }
+
+    [HttpGet("calculate")]
+    public async Task<ActionResult<IEnumerable<CommissionResult>>> Calculate(CancellationToken ct)
+    {
+        var results = await _commissionService.CalculateCommissionAsync(ct);
 
         return Ok(results);
     }
