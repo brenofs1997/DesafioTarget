@@ -1,10 +1,11 @@
+using DesafioTarget.Common;
 using DesafioTarget.Repositories;
 using DesafioTarget.Services;
 using DesafioTarget.Services.Strategies;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-var dataDir = Path.Combine(AppContext.BaseDirectory, "Data");
+var dataDir = Path.Combine(builder.Environment.ContentRootPath, "Data");
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -27,6 +28,8 @@ builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<ISaleRepository, SaleRepository>(_ => new SaleRepository(Path.Combine(dataDir, "vendas.json"))); ;
 builder.Services.AddScoped<IProductRepository, ProductRepository>( _ => new ProductRepository(Path.Combine(dataDir, "estoque.json")));
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 
 var app = builder.Build();
@@ -37,6 +40,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 

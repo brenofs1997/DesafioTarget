@@ -17,6 +17,8 @@ public class CommissionsController : ControllerBase
     }
 
     [HttpPost("calculate")]
+    [ProducesResponseType(typeof(CommissionResult), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<CommissionResult>> Calculate([FromBody] SaleRequest inputModel)
     {
         var results = _commissionService.CalculateCommission(inputModel);
@@ -25,6 +27,8 @@ public class CommissionsController : ControllerBase
     }
 
     [HttpGet("calculate")]
+    [ProducesResponseType(typeof(CommissionResult), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<CommissionResult>>> Calculate(CancellationToken ct)
     {
         var results = await _commissionService.CalculateCommissionAsync(ct);

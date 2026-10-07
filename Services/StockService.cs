@@ -1,4 +1,5 @@
-﻿using DesafioTarget.Models;
+﻿using DesafioTarget.Common;
+using DesafioTarget.Models;
 using DesafioTarget.Repositories;
 
 namespace DesafioTarget.Services;
@@ -16,23 +17,27 @@ public class StockService : IStockService
         StockMovement movement,
         CancellationToken ct = default)
     {
+        if (movement.Quantity <= 0)
+            throw new DomainException("A quantidade deve ser maior que zero.");
+
         var product = await _productRepository.GetByCodeAsync(
             movement.ProductCode,
             ct);
 
         if (product is null)
         {
-            throw new InvalidOperationException("Produto não encontrado.");
+            throw new NotFoundException("Produto não encontrado.");
         }
 
-        if (movement.Type == StockMovementType.Entry)
+        product.Stock += movement.Type switch
         {
-            product.Stock += movement.Quantity;
-        }
-        else if (movement.Type == StockMovementType.Exit)
-        {
-            product.Stock -= movement.Quantity;
-        }
+            StockMovementType.Entry => movement.Quantity,
+            StockMovementType.Exit => -movement.Quantity,
+            _ => throw new DomainException("Tipo de movimentação inválido.")
+        };
+
+        if (product.Stock < 0)
+            throw new DomainException("Estoque insuficiente.");
 
         await _productRepository.UpdateAsync(product, ct);
 

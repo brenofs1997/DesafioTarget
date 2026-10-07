@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="../DesafioTarget.Tests/DesafioTarget.Tests.csproj" Id="dfdf00cc-4ca5-4e38-95f0-859afa796a8d" />
+  <Project Path="../DesafioTarget.Tests/DesafioTarget.Tests.csproj" />
   <Project Path="DesafioTarget.csproj" />
 </Solution>

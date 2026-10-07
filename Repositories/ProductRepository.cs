@@ -1,4 +1,6 @@
-﻿using DesafioTarget.Models;
+﻿using DesafioTarget.Common;
+using DesafioTarget.Models;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -23,7 +25,7 @@ namespace DesafioTarget.Repositories
 
             if (file is null)
             {
-                throw new InvalidOperationException( "Arquivo de estoque inválido.");
+                throw new NotFoundException("Arquivo de estoque inválido.");
             }
 
             return file.Products
@@ -56,7 +58,7 @@ namespace DesafioTarget.Repositories
 
             if (existingProduct is null)
             {
-                throw new InvalidOperationException("Produto não encontrado.");
+                throw new NotFoundException("Produto não encontrado.");
             }
 
             existingProduct.Stock = product.Stock;
@@ -75,7 +77,8 @@ namespace DesafioTarget.Repositories
                 file,
                 new JsonSerializerOptions
                 {
-                    WriteIndented = true
+                    WriteIndented = true,
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                 },
                 ct);
         }

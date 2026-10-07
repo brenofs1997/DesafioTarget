@@ -17,6 +17,10 @@ public class StockMovementsController : ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(StockMovementResult), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<StockMovementResult>> Create([FromBody] StockMovementRequest request,CancellationToken ct)
     {
         var movement = new StockMovement
