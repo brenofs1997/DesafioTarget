@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="build-log.txt" />
+  </ItemGroup>
+
 
 
   <ItemGroup>

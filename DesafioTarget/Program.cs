@@ -24,6 +24,7 @@ builder.Services.AddScoped<ICommissionStrategy, FivePercentCommissionStrategy>()
 
 builder.Services.AddScoped<ICommissionService, CommissionService>();
 builder.Services.AddScoped<IStockService, StockService>();
+builder.Services.AddScoped<IInterestService, InterestService>();
 
 builder.Services.AddScoped<ISaleRepository, SaleRepository>(_ => new SaleRepository(Path.Combine(dataDir, "vendas.json"))); ;
 builder.Services.AddScoped<IProductRepository, ProductRepository>( _ => new ProductRepository(Path.Combine(dataDir, "estoque.json")));
