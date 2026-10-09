@@ -17,5 +17,5 @@ Solução do desafio técnico da Target, composta por uma API em C# (ASP.NET Cor
 As instruções de instalação, configuração e execução estão no README de cada projeto:
 
 - [API](./DesafioTarget/README.md)
-- [Testes](./DesafioTarget.Tests/README.md)
+- [Testes](./DesafioTarget/README.md)
 - [Frontend](./Frontend/README.md)
